@@ -1,10 +1,19 @@
 {% extends "base.html" %}
-{% block title %}home{% endblock %}
+{% block title %}Login{% endblock %}
 {% block bodyContent %}
 
-<h1>voici la maison</h1>
+<form  method="POST">
+    <h2 class="formLogin">Login</h2>
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="text" id="email" name="email" class="form-control" placeholder="Enter email"/>
+        <label for="password">password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter password"/>
+        <div class="formLogin"><button class="btn btn-success" type="submit">Submit</button>
+            </div>
+    </div>
 
-
+</form>
 
 
 
