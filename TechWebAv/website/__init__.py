@@ -5,15 +5,13 @@ from flask_login import LoginManager
 from os import path
 import sqlite3
 from flask_migrate import Migrate
-
-
 database = SQLAlchemy()
 DB_NAME = "BlogDB.db"
 
 
 def initialisation_database(app):
     #if not path.exists("website/" + DB_NAME):#verifie si daatabase existe, sinon la cree
-        SQLAlchemy().create_all(app=app)
+        database.create_all(app=app)
         print ("Database operationelle")
 
 
@@ -25,7 +23,7 @@ def create_app():  # Initialisation de l'application
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////Users/berlingott/Desktop/BlogDB.db"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    from .tables import Usagers #importation des modeles de table pour la base de donnees
+    from .tables import Usagers
 
     database.init_app(app)
 

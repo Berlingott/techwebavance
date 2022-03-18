@@ -13,3 +13,5 @@ class Usagers(database.Model, UserMixin):
     username = database.Column(database.String(100), unique=True)
     password = database.Column(database.String(100))
     email = database.Column(database.String(100), unique=True)
+
+
