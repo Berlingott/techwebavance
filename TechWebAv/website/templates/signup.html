@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 {% block title %}Sign up!{% endblock %}
-{% block bodyContent %}
-
+{% block bodyContenu %}
+¶
 <form  method="POST">
     <h2 class="formLogin">Sign up!</h2>
     <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="text" id="email" name="email" class="form-control" placeholder="Enter email"/>
+        <label for="nom">Username</label>
+        <input type="text" id="nom" name="nom" class="form-control" placeholder="Entrer votre nom"/>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Entrer votre pseudo"/>
 
-        <label for="email">Username</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Enter username"/>
+        <label for="email">Email address</label>
+        <input type="text" id="email" name="email" class="form-control" placeholder="Entrer votre email"/>
+
+
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Enter password"/>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Entrer un mot de passe"/>
 
         <label for="passwordconfirmation">Password Confirmation</label>
-        <input type="password" id="passwordconfirmation" name="passwordconfirmation" class="form-control" placeholder="Enter password confirmation"/>
+        <input type="password" id="passwordconfirmation" name="passwordconfirmation" class="form-control" placeholder="Confirmer votre mot de passe"/>
         <div class="formLogin"><button class="btn btn-success" type="submit">Submit</button>
             </div>
     </div>
