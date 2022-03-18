@@ -1,3 +1,5 @@
+import datetime
+
 from sqlalchemy.sql import func
 from flask_login import (
     LoginManager, UserMixin, current_user,
@@ -14,4 +16,9 @@ class Usagers(database.Model, UserMixin):
     password = database.Column(database.String(100))
     email = database.Column(database.String(100), unique=True)
 
+class Articles(database.Model):
+    id = database.Column(database.INTEGER, primary_key=True, autoincrement=True)
+    text = database.Column(database.String(254))
+    datePublication = database.Column(datetime.datetime().now())
+    usager_id = database.Column(database.INTEGER, foreign_key=True)
 

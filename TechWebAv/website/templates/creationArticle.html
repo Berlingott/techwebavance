@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titre %}Accueil{% endblock %}
+{% block bodyContenu %}
+<div class="modal-title d-flex justify-content-center">
+<h1>Faire un Article</h1>
+</div>
+<div class="justify-content-around ">
+    <form method="POST">
+        <textarea name="textArticle"  id="textArticle" class="form-control"></textarea>
+        <div class="boutonSoumissionPoste d-flex justify-content-around" >
+            <button type="submit" class="btn bg-success border-dark d-flex justify-content-center">Soumettre</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
