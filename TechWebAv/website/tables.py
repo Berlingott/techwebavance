@@ -19,6 +19,6 @@ class Usagers(database.Model, UserMixin):
 class Articles(database.Model):
     id = database.Column(database.INTEGER, primary_key=True, autoincrement=True)
     text = database.Column(database.String(254))
-    datePublication = database.Column(datetime.datetime().now())
+#    datePublication = database.Column(datetime.datetime().now())
     usager_id = database.Column(database.INTEGER, foreign_key=True)
 
