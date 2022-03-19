@@ -21,9 +21,10 @@ def create_app():  # Initialisation de l'application
     app.config['FLASK_ENV'] = 'development'
     app.config['DEBUG'] = True
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/BlogDB.db"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////Users/berlingott/Desktop//BlogDB.db"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     from .tables import Usagers
+    from .tables import Articles
 
     database.init_app(app)
 

@@ -10,7 +10,7 @@
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/base.css') }}">
 </head>
 <body style="background-color:#212529" >
-    <nav class="navbar navbar-dark bg-success navbar-expand-lg text-black ">
+    <nav class="navbar navbar-dark bg-info navbar-expand-lg text-black ">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" >
                 <span class="navbar-toggler-icon"></span>
@@ -21,17 +21,14 @@
 
 
                 {% if usager.is_authenticated %}
-                    <a class="nav-item nav-link" href="/Accueil">Accueil</a>
-                    <a class="nav-item nav-link" href="/logout">Disconnect</a>
-
-
+                    <a class="nav-item nav-link text-dark" href="/Accueil">Spooftify</a>
+                    <a class="nav-item text-dark nav-link" href="/Publier">Publier</a>
+                    <a class="nav-item text-dark nav-link" href="/logout">Disconnect</a>
                 {% else %}
-                    <a class="nav-item nav-link" href="/login">Login</a>
-                    <a class="nav-item nav-link" href="/signup">Sign Up</a>
-
+                    <a class="nav-item nav-link text-dark" href="/Accueil">Spooftify</a>
+                    <a class="nav-item text-dark nav-link" href="/login">Login</a>
+                    <a class="nav-item text-dark nav-link" href="/signup">Sign Up</a>
                 {% endif %}
-
-
                 </div>
             </div>
         </div>

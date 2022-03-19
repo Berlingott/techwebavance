@@ -10,15 +10,18 @@ from sqlalchemy import Table, Column, Integer, String, MetaData
 
 
 class Usagers(database.Model, UserMixin):
+    __tablename__ = 'Usagers'
     id = database.Column(database.INTEGER, primary_key=True, autoincrement=True)
     nom = database.Column(database.String(100))
     username = database.Column(database.String(100), unique=True)
     password = database.Column(database.String(100))
     email = database.Column(database.String(100), unique=True)
+    articles = database.relationship("Articles", backref='usagers')
+
 
 class Articles(database.Model):
+    __tablename__ = 'Articles'
     id = database.Column(database.INTEGER, primary_key=True, autoincrement=True)
-    text = database.Column(database.String(254))
-#    datePublication = database.Column(datetime.datetime().now())
-    usager_id = database.Column(database.INTEGER, foreign_key=True)
-
+    textArticle = database.Column(database.String(254))
+    datePublication = database.Column(database.DateTime(timezone=True), default=func.now())
+    usagers_id = database.Column(database.INTEGER, database.ForeignKey('Usagers.id', ondelete='CASCADE'), nullable=False)

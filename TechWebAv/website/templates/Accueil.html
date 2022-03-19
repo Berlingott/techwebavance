@@ -1,10 +1,25 @@
 {% extends "base.html" %}
-{% block titre %}home{% endblock %}
+{% block titre %}Spootify - home{% endblock %}
 {% block bodyContenu%}
+<h1 style="justify-content: center">Spooftify</h1>
+<div id="articles"></div>
 
-<h1>voici la maison</h1>
 
 
+
+
+{% for article in articles %}
+<div class="bg-info card mt-4" >
+    <div class="card-body">
+        {{article.textArticle}}
+    </div>
+    <div class="card-footer">
+        {{article.usagers_id.username}}
+    </div>
+</div>
+
+
+{% endfor%}
 
 
 
