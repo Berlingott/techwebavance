@@ -11,9 +11,6 @@ def home():
     return render_template("Accueil.html", usager=current_user, articles=articles)
 
 
-
-
-
 @views.route("/Publier", methods=['GET', 'POST'])
 @login_required #doit etre connecte pour acceder a l accueil
 def creationArticle():
