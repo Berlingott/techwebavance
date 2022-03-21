@@ -8,7 +8,7 @@ from flask_login import (
 from . import database
 from sqlalchemy import Table, Column, Integer, String, MetaData
 from sqlalchemy.ext.declarative import declarative_base
-
+from sqlalchemy import insert
 Base = declarative_base()
 
 
@@ -23,6 +23,7 @@ class articleReactionAssociation(database.Model):
 class Commentaires(database.Model):
     # clef
     __tablename__ = 'Commentaires'
+    #
     id = Column(database.Integer, primary_key=True, autoincrement=True)
     usagers_id = Column(database.Integer, database.ForeignKey('Usagers.id', ondelete='CASCADE'), nullable=False)
     articlesducommentaire_id = Column(database.Integer, database.ForeignKey('Articles.id', ondelete='CASCADE'),
@@ -77,4 +78,7 @@ class Articles(database.Model):
     articleReactionAssociationArticle = database.relationship("articleReactionAssociation", backref='Articles')
 
 
-
+statementReaction = (
+    insert(Reactions).
+    values(nomDeLaReaction="aime")
+)
