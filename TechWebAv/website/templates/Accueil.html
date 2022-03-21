@@ -10,12 +10,18 @@
 
 {% for article in articles %}
 <div class="bg-info card mt-4" >
-    {% if usager.id == article.usagers_id %}
     <div class="card-header">
+
+    {% if usager.id == article.usagers_id %}
         <button type="button" class="btn btn-sm text-dark">modifier</button>
          <button type="button" class="btn btn-sm text-dark link-dark"><a class="link-dark" href="supprimeArticle/{{article.id}}">supprimer</a></button>
         {% endif %}
         {% if usager.is_authenticated %}
+            {% if usager.is_authenticated %}
+            {% elif usager.is_authenticated %}
+
+
+            {% endif %}
         <i class="fa-regular fa-heart"></i>
         {% endif %}
 

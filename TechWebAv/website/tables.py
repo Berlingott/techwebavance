@@ -7,59 +7,74 @@ from flask_login import (
 )
 from . import database
 from sqlalchemy import Table, Column, Integer, String, MetaData
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 
+class articleReactionAssociation(database.Model):
+    __tablename__ = 'articleReactionAssociation'
+    id = Column(database.Integer, primary_key=True, autoincrement=True, unique=True)
+    usagers_id = Column(database.Integer, database.ForeignKey('Usagers.id'))
+    article_id = Column(database.Integer, database.ForeignKey('Articles.id'))
+    reaction_id = Column(database.Integer, database.ForeignKey('Reactions.id'))
 
-#articleReactionassociation = Table('articleReactionassociation' Base.metadata,    #relation
-#Column(database.Integer, database.ForeignKey('Usagers.id', ondelete='CASCADE'), nullable=False, primary_key=True),
-#Column(database.Integer, database.ForeignKey('Articles.id', ondelete='CASCADE'), nullable=False, primary_key=True),
-#Column(database.Integer, database.ForeignKey('Reactions.id', ondelete='CASCADE'), nullable=False, primary_key=True)
-#)
 
 class Commentaires(database.Model):
-    #clef
+    # clef
     __tablename__ = 'Commentaires'
     id = Column(database.Integer, primary_key=True, autoincrement=True)
     usagers_id = Column(database.Integer, database.ForeignKey('Usagers.id', ondelete='CASCADE'), nullable=False)
-    articlesducommentaire_id = Column(database.Integer, database.ForeignKey('Articles.id', ondelete='CASCADE'), nullable=False)
-    #attributs
-    textCommentaires =Column(database.String(254))
+    articlesducommentaire_id = Column(database.Integer, database.ForeignKey('Articles.id', ondelete='CASCADE'),
+                                      nullable=False)
+    # attributs
+    textCommentaires = Column(database.String(254))
     datePublication = Column(database.DateTime(timezone=True), default=func.now())
-    #backrefs
+    # backrefs
 
-class Balises:
+
+class Balises(database.Model):
     __tablename__ = 'Balises'
-    #clef
+    # clef
     id = Column(database.Integer, primary_key=True, autoincrement=True)
 
-class Reactions:
+
+class Reactions(database.Model):
     __tablename__ = 'Reactions'
-    #clef
+    # clef
     id = Column(database.Integer, primary_key=True, autoincrement=True)
-   # articleReaction = database.relationship("articleReaction", backref='articleReaction')
+    #attributs
+    nomDeLaReaction = Column(database.String(20), unique=True)
+    #backrefs
+    articleReactionAssociationReactions = database.relationship("articleReactionAssociation", backref='Reactions')
 
 
 class Usagers(database.Model, UserMixin):
-    #clef
+    # clef
     __tablename__ = 'Usagers'
     id = Column(database.Integer, primary_key=True, autoincrement=True)
-    #attributs
+    # attributs
     nom = Column(database.String(100))
     username = Column(database.String(100), unique=True)
     password = Column(database.String(100))
     email = Column(database.String(100), unique=True)
-    #backrefs
+    role = Column(database.String(10), default="lecteur")
+    # backrefs
     articles = database.relationship("Articles", backref='usagers')
-   # articleReaction = database.relationship("articleReaction", backref='articleReaction')
+    articleReactionAssociationUsager = database.relationship("articleReactionAssociation", backref='usagers')
+
 
 class Articles(database.Model):
-    #clef
+    # clef
     __tablename__ = 'Articles'
     id = Column(database.Integer, primary_key=True, autoincrement=True)
-    #attributs
+    # attributs
     usagers_id = Column(database.Integer, database.ForeignKey('Usagers.id', ondelete='CASCADE'), nullable=False)
     textArticle = Column(database.String(254))
     datePublication = Column(database.DateTime(timezone=True), default=func.now())
-    #backrefs
+    # backrefs
     commentaires = database.relationship("Commentaires", backref='Articles')
-   # articleReaction = database.relationship("articleReaction", backref='articleReaction')
+    articleReactionAssociationArticle = database.relationship("articleReactionAssociation", backref='Articles')
+
+
+

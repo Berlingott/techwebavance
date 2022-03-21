@@ -62,3 +62,11 @@ def supprimerCommentaire(commentaires_id):
         database.session.delete(commentaire)
         database.session.commit()
     return redirect(url_for("views.home"))
+
+@login_required
+@views.route("/aimerArticles/<articles_id>", methods=['POST'])
+def aimerArticles(articles_id):
+    article = Articles.query.filter_by(id=articles_id).first()
+
+
+    return redirect(url_for("views.home"))

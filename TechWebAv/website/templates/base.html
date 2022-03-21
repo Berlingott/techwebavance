@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block titre %}{% endblock %}</title>
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='base.css') }}">
-    <script src="https://kit.fontawesome.com/62edd53ebf.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/62edd53ebf.js" crossorigin="anonymous"></script><!--utilisation de font awesome pour les icons-->
 </head>
 <body style="background-color:#212529" >
     <nav class="navbar navbar-dark bg-info navbar-expand-lg text-black ">
@@ -23,6 +23,7 @@
 
                 {% if usager.is_authenticated %}
                     <a class="nav-item nav-link text-dark" href="/Accueil">Spooftify</a>
+
                     <a class="nav-item text-dark nav-link" href="/Publier">Publier</a>
                     <a class="nav-item text-dark nav-link" href="/logout">Disconnect</a>
                 {% else %}

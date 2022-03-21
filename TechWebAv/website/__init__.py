@@ -10,10 +10,22 @@ DB_NAME = "BlogDB.db"
 
 
 def initialisation_database(app):
-    #if not path.exists("website/" + DB_NAME):#verifie si daatabase existe, sinon la cree
-        database.create_all(app=app)
-        print ("Database operationelle")
-#initialisation de l application et de la base de donnee
+    # if not path.exists("website/" + DB_NAME):#verifie si daatabase existe, sinon la cree
+    database.create_all(app=app)
+    print ("Database operationelle")
+
+#creations des reaction(ex: aimer, detester, facher...)
+def creation_des_reactions(app):
+    from .tables import Reactions
+
+    aimer = Reactions(nomDeLaReaction="aimer")
+    database.session.add(aimer)
+    database.session.commit()
+
+
+
+
+# initialisation de l application et de la base de donnee
 
 def create_app():  # Initialisation de l'application
     app = Flask(__name__)
@@ -23,24 +35,27 @@ def create_app():  # Initialisation de l'application
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////Users/berlingott/Desktop//BlogDB.db"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    from .tables import  Usagers, Articles, Commentaires, Reactions
-    # articleReaction,
+    from .tables import Usagers, Articles, Commentaires, articleReactionAssociation, Balises, Reactions
+
     database.init_app(app)
 
     from .views import views  # importation de nos fichiers cree, le point est parce qu'ils font partie du projet
     from .auth import auth
 
-
     app.register_blueprint(views, url_prefix="/")
     app.register_blueprint(auth, url_prefix="/")
 
-    initialisation_database(app)
+
+
     gestionaireLogin = LoginManager()
-    gestionaireLogin.login_view = "auth.login"#si une personne nest pas connecte, redirection a la page de login
+    gestionaireLogin.login_view = "auth.login"  # si une personne nest pas connecte, redirection a la page de login
     gestionaireLogin.init_app(app)
-    #gestionnaire de connexion
-    @gestionaireLogin.user_loader #retourner le id de la base de donnee
+
+
+
+    # gestionnaire de connexion
+    @gestionaireLogin.user_loader  # retourner le id de la base de donnee
     def load_user(id):
         return Usagers.query.get(int(id))
-    return app  # On retourne l'application
 
+    return app  # On retourne l'application
