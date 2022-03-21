@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 from . import database
 from .tables import Articles
 from .tables import Commentaires
+from .tables import articleReactionAssociation
+from .tables import Reactions
 views = Blueprint("views", __name__)
 
 @views.route("/Accueil")
@@ -64,9 +66,18 @@ def supprimerCommentaire(commentaires_id):
     return redirect(url_for("views.home"))
 
 @login_required
-@views.route("/aimerArticles/<articles_id>", methods=['POST'])
+@views.route("/aimerArticles/<articles_id>", methods=['GET'])
 def aimerArticles(articles_id):
     article = Articles.query.filter_by(id=articles_id).first()
+    jaime = articleReactionAssociation.query.filter_by(article_id=articles_id, usagers_id=current_user.id).first()
+    reaction = Reactions.query.filter_by(nomDeLaReaction = "aime").first()
+    if article:
+        if jaime:
 
-
+            database.session.delete(jaime)
+            database.session.commit()
+        else:
+            relation = articleReactionAssociation(usagers_id=current_user.id, article_id=article.id, reaction_id=reaction.id )
+            database.session.add(relation)
+            database.session.commit()
     return redirect(url_for("views.home"))

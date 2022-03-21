@@ -11,19 +11,24 @@
 {% for article in articles %}
 <div class="bg-info card mt-4" >
     <div class="card-header">
+        {% if usager.is_authenticated %}
+        {% if usager.id in article.articleReactionAssociationArticle|map(attribute="usagers_id")|list  %}
+        <a href="/aimerArticles/{{article.id}}"><i class="fa-solid fa-heart"></i></a>
+        {%else %}
+        <a href="/aimerArticles/{{article.id}}"><i class="fa-regular fa-heart"></i></a>
+        {% endif %}
+
+
+
+
+        {{ article.articleReactionAssociationArticle|length }}
+            {% endif %}
 
     {% if usager.id == article.usagers_id %}
         <button type="button" class="btn btn-sm text-dark">modifier</button>
          <button type="button" class="btn btn-sm text-dark link-dark"><a class="link-dark" href="supprimeArticle/{{article.id}}">supprimer</a></button>
         {% endif %}
-        {% if usager.is_authenticated %}
-            {% if usager.is_authenticated %}
-            {% elif usager.is_authenticated %}
 
-
-            {% endif %}
-        <i class="fa-regular fa-heart"></i>
-        {% endif %}
 
 
 

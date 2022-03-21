@@ -9,8 +9,8 @@ database = SQLAlchemy()
 DB_NAME = "BlogDB.db"
 
 
+
 def initialisation_database(app):
-    from .tables import statementReaction
     #if not path.exists("website/" + DB_NAME):#verifie si database existe, sinon la cree
     database.create_all(app=app)
 
@@ -31,7 +31,7 @@ def create_app():  # Initialisation de l'application
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-    from .tables import Usagers, Articles, Commentaires, articleReactionAssociation, Balises, Reactions, statementReaction
+    from .tables import Usagers, Articles, Commentaires, articleReactionAssociation, Balises, Reactions
 
     database.init_app(app)
 

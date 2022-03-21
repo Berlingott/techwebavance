@@ -9,7 +9,11 @@ from . import database
 from sqlalchemy import Table, Column, Integer, String, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import insert
-Base = declarative_base()
+from sqlalchemy.event import listens_for
+from sqlalchemy.pool import Pool
+from sqlalchemy import event, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+
 
 
 class articleReactionAssociation(database.Model):
@@ -49,7 +53,6 @@ class Reactions(database.Model):
     #backrefs
     articleReactionAssociationReactions = database.relationship("articleReactionAssociation", backref='Reactions')
 
-
 class Usagers(database.Model, UserMixin):
     # clef
     __tablename__ = 'Usagers'
@@ -78,7 +81,8 @@ class Articles(database.Model):
     articleReactionAssociationArticle = database.relationship("articleReactionAssociation", backref='Articles')
 
 
-statementReaction = (
-    insert(Reactions).
-    values(nomDeLaReaction="aime")
-)
+
+def insert_data_reaction(target, connection, **kw):
+    connection.execute(target.insert(), {'nomDeLaReaction':"aime"})
+
+event.listen(Reactions.__table__, 'after_create', insert_data_reaction)
