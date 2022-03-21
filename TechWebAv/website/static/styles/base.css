@@ -6,3 +6,14 @@ nav .navbar-nav li .navbar a{
   text-align: center;
   align-content: center;
 }
+
+hr{
+   margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid black; !important;
+}
+
+.submitcomment{
+  color: red;
+}

@@ -10,9 +10,48 @@
 
 {% for article in articles %}
 <div class="bg-info card mt-4" >
-    <div class="card-body">
-        {{article.textArticle}}
+    {% if usager.id == article.usagers_id %}
+    <div class="card-header">
+        <button type="button" class="btn btn-sm text-dark">modifier</button>
+         <button type="button" class="btn btn-sm text-dark link-dark"><a class="link-dark" href="supprimeArticle/{{article.id}}">supprimer</a></button>
+        {% endif %}
+        {% if usager.is_authenticated %}
+        <i class="fa-regular fa-heart"></i>
+        {% endif %}
+
+
+
     </div>
+
+    <div class="card-body">
+        <div class="text-black">
+        {{article.textArticle}}
+        </div>
+
+        <div class="sectionCommentaires mt-1">
+            {% for commentaires in article.commentaires %}
+             <hr>
+            <div class="text-white">
+                {{commentaires.textCommentaires}}
+                {% if usager.id == commentaires.usagers_id %}
+                <button type="button" class="btn btn-sm text-dark link-dark"><a class="link-dark" href="supprimerCommentaire/{{commentaires.id}}">X</a></button>
+
+                {% endif %}
+            </div>
+            {% endfor %}
+
+        </div>
+    {% if usager.is_authenticated %}
+    <hr>
+        <div class="sectionEcrireCommentaire">
+            <form action="/creeCommentaire/{{article.id }}" class="input-group bg-info" method="POST">
+                <input type="text" id="textCommentaire" name="textCommentaire" class="form-control" placeholder="Écrivez votre commentaire">
+                <button type="submit" class="submitcomment">Soumettre</button>
+            </form>
+        </div>
+    {% endif %}
+    </div>
+
     <div class="card-footer">
         <div class="text-dark">{{article.usagers.username}}</div>
     </div>

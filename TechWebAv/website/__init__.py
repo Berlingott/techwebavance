@@ -23,13 +23,13 @@ def create_app():  # Initialisation de l'application
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////Users/berlingott/Desktop//BlogDB.db"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    from .tables import Usagers
-    from .tables import Articles
-
+    from .tables import  Usagers, Articles, Commentaires, Reactions
+    # articleReaction,
     database.init_app(app)
 
     from .views import views  # importation de nos fichiers cree, le point est parce qu'ils font partie du projet
     from .auth import auth
+
 
     app.register_blueprint(views, url_prefix="/")
     app.register_blueprint(auth, url_prefix="/")
