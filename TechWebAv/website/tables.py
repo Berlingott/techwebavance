@@ -87,3 +87,10 @@ def insert_data_reaction(target, connection, **kw):
     connection.execute(target.insert(), {'nomDeLaReaction':"aime"})
 
 event.listen(Reactions.__table__, 'after_create', insert_data_reaction)
+
+def insert_data_reaction(target, connection, **kw):
+    connection.execute(target.insert(), {'nom':"admin",'prenom':"admin",'password':"sha256$fOlfwooD$c3eefbf7b16deefeaffde6fb066fbb485432ec937988aa5f3d6d69408699083e",'username':"admin",'role':"admin", 'email':"admin"})
+
+event.listen(Usagers.__table__, 'after_create', insert_data_reaction)
+
+
