@@ -11,17 +11,23 @@
 {% for article in articles %}
 <div class="bg-info card mt-4" >
     <div class="card-header">
-        {% if usager.is_authenticated %}
+
+
         {% if usager.id in article.articleReactionAssociationArticle|map(attribute="usagers_id")|list  %}
         <a href="/aimerArticles/{{article.id}}"><i class="fa-solid fa-heart"></i></a>
         {%else %}
         <a href="/aimerArticles/{{article.id}}"><i class="fa-regular fa-heart"></i></a>
         {% endif %}
-
-
-
-
         {{ article.articleReactionAssociationArticle|length }}
+
+        {% if usager.is_authenticated %}
+        {% if article.status == "brouillon" %}
+        <a href="/publieoubrouillon/{{article.id}}">Publié</a>
+        {% else %}
+        <a href="/publieoubrouillon/{{article.id}}">Remettre en brouillon</a>
+        {% endif %}
+
+
             {% endif %}
 
     {% if usager.id == article.usagers_id %}

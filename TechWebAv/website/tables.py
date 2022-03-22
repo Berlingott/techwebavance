@@ -76,6 +76,7 @@ class Articles(database.Model):
     usagers_id = Column(database.Integer, database.ForeignKey('Usagers.id', ondelete='CASCADE'), nullable=False)
     textArticle = Column(database.String(254))
     datePublication = Column(database.DateTime(timezone=True), default=func.now())
+    status = Column(database.String(20), default="brouillon")
     # backrefs
     commentaires = database.relationship("Commentaires", backref='Articles')
     articleReactionAssociationArticle = database.relationship("articleReactionAssociation", backref='Articles')

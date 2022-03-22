@@ -81,3 +81,15 @@ def aimerArticles(articles_id):
             database.session.add(relation)
             database.session.commit()
     return redirect(url_for("views.home"))
+@login_required
+@views.route("/publieoubrouillon/<articles_id>", methods=['GET'])
+def publieoubrouillon(articles_id):
+    article = Articles.query.filter_by(id=articles_id).first()
+
+    if article:
+        if article.status == "publie":
+            article.status = "brouillon"
+        else:
+            article.status = "publie"
+        database.session.commit()
+    return redirect(url_for("views.home"))
