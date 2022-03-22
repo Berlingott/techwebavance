@@ -32,8 +32,8 @@ def creationArticle():
 
     return render_template('Publier.html', usager=current_user)
 
-@login_required
 @views.route("/supprimeArticle/<articleid>")
+@login_required
 def supprimeArticle(articleid):
     article = Articles.query.filter_by(id=articleid).first()
     commentaires = Commentaires.query.filter_by(articlesducommentaire_id=articleid).all()
@@ -45,8 +45,8 @@ def supprimeArticle(articleid):
         database.session.commit()
     return redirect(url_for("views.home"))
 
-@login_required
 @views.route("/creeCommentaire/<article_id>", methods=['POST'])
+@login_required
 def creeCommentaire(article_id):
     commentaire = request.form.get("textCommentaire")
     if request.method == "POST":
@@ -56,8 +56,8 @@ def creeCommentaire(article_id):
         database.session.commit()
     return redirect(url_for("views.home"))
 
-@login_required
 @views.route("/supprimerCommentaire/<commentaires_id>")
+@login_required
 def supprimerCommentaire(commentaires_id):
     commentaire = Commentaires.query.filter_by(id=commentaires_id).first()
     if current_user.id == commentaire.usagers_id:
@@ -66,8 +66,8 @@ def supprimerCommentaire(commentaires_id):
         database.session.commit()
     return redirect(url_for("views.home"))
 
-@login_required
 @views.route("/aimerArticles/<articles_id>", methods=['GET'])
+@login_required
 def aimerArticles(articles_id):
     article = Articles.query.filter_by(id=articles_id).first()
     jaime = articleReactionAssociation.query.filter_by(article_id=articles_id, usagers_id=current_user.id).first()
@@ -82,8 +82,9 @@ def aimerArticles(articles_id):
             database.session.add(relation)
             database.session.commit()
     return redirect(url_for("views.home"))
-@login_required
+
 @views.route("/publieoubrouillon/<articles_id>", methods=['GET'])
+@login_required
 def publieoubrouillon(articles_id):
     if current_user.role == "admin" or current_user.role == "autheur":
         article = Articles.query.filter_by(id=articles_id).first()
@@ -94,4 +95,16 @@ def publieoubrouillon(articles_id):
             else:
                 article.status = "publie"
             database.session.commit()
+    return redirect(url_for("views.home"))
+#------Partie Admin---
+
+
+
+@views.route("/adminrechercheusager")
+@login_required
+def adminrechercheusager():
+
+    if current_user.role == "admin":
+        return render_template('adminRechercheUser.html', usager=current_user)
+
     return redirect(url_for("views.home"))
