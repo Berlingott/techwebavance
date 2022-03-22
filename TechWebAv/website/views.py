@@ -1,7 +1,7 @@
 from flask import Blueprint, url_for, redirect,  render_template, request, flash
 from flask_login import login_required, current_user
 from . import database
-from .tables import Articles
+from .tables import Articles, Usagers
 from .tables import Commentaires
 from .tables import articleReactionAssociation
 from .tables import Reactions
@@ -108,3 +108,16 @@ def adminrechercheusager():
         return render_template('adminRechercheUser.html', usager=current_user)
 
     return redirect(url_for("views.home"))
+
+
+
+
+@views.route("/adminrechercheuseagerSoumis", methods=['POST'])
+@login_required #doit etre connecte pour acceder a l accueil
+def adminrechercheuseagerSoumis():
+    if current_user.role == "admin":
+        rechercheutilisateur = request.form.get('adminrechercheuseagerSoumis')
+        if rechercheutilisateur:
+            resultat = Usagers.query.filter_by(username=rechercheutilisateur).first()
+            return render_template('ModCompte.html', usager=current_user, resultat=resultat)
+    return redirect(url_for('views.home'))

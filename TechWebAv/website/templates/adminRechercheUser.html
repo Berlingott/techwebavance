@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 {% block titre %}Login{% endblock %}
 {% block bodyContenu %}
-
-
-<form method="POST">
-    <h2 class="formLogin">Modification d'utilisateur</h2>
-    <div class="form-group">
-        <label for="rechercheutilisateur">Rechercher un utilisateur</label>
-        <input type="text" id="rechercheutilisateur" name="rechercheutilisateur" class="form-control" placeholder="Entrer un nom d'utilisateur" />
-        <div class="formLogin">
-            <button class="bg-info btn" type="submit">Rechercher</button>
+<div class="modal-title d-flex justify-content-center">
+<h1>Rechercher un utilisateur</h1>
+</div>
+<div class="justify-content-around ">
+    <form method="POST">
+        <textarea name="adminrechercheuseagerSoumis"  id="adminrechercheuseagerSoumis" class="form-control"></textarea>
+        <div class="boutonSoumissionPoste d-flex justify-content-around" >
+            <button type="submit" class="btn bg-info border-dark d-flex justify-content-center">Soumettre</button>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 {% block suiteAdminPannel %}{% endblock %}
 {% endblock %}
