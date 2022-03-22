@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block titre %}Accueil{% endblock %}
 {% block bodyContenu %}
+{% if usager.role == "admin" or usager.role == "autheur" %}
 <div class="modal-title d-flex justify-content-center">
 <h1>Faire un Article</h1>
 </div>
@@ -12,4 +13,8 @@
         </div>
     </form>
 </div>
+{% else %}
+<H4>Veuillez demander les accès autheur à votre administrateur afin de pouvoir publier.</H4>
+{% endif %}
+
 {% endblock %}

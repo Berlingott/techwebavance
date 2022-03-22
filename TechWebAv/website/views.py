@@ -17,16 +17,17 @@ def home():
 @views.route("/Publier", methods=['GET', 'POST'])
 @login_required #doit etre connecte pour acceder a l accueil
 def creationArticle():
-    if request.method == "POST":
-        textarticle = request.form.get('textArticle')
+    if current_user.role == "admin" or current_user.role == "autheur":
+        if request.method == "POST":
+            textarticle = request.form.get('textArticle')
 
-        if not textarticle:
-            flash('Vous devez ecrire un article!', category='error')
-        else:
-            flash(('Article publie'), category='success')
-            articles = Articles(usagers_id=current_user.id, textArticle=textarticle)
-            database.session.add(articles)
-            database.session.commit()
+            if not textarticle:
+                flash('Vous devez ecrire un article!', category='error')
+            else:
+                flash(('Article publie'), category='success')
+                articles = Articles(usagers_id=current_user.id, textArticle=textarticle)
+                database.session.add(articles)
+                database.session.commit()
             return redirect(url_for('views.home'))
 
     return render_template('Publier.html', usager=current_user)
@@ -84,12 +85,13 @@ def aimerArticles(articles_id):
 @login_required
 @views.route("/publieoubrouillon/<articles_id>", methods=['GET'])
 def publieoubrouillon(articles_id):
-    article = Articles.query.filter_by(id=articles_id).first()
+    if current_user.role == "admin" or current_user.role == "autheur":
+        article = Articles.query.filter_by(id=articles_id).first()
 
-    if article:
-        if article.status == "publie":
-            article.status = "brouillon"
-        else:
-            article.status = "publie"
-        database.session.commit()
+        if article:
+            if article.status == "publie":
+                article.status = "brouillon"
+            else:
+                article.status = "publie"
+            database.session.commit()
     return redirect(url_for("views.home"))
