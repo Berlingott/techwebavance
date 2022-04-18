@@ -1,11 +1,14 @@
-from flask import Blueprint, url_for, redirect,  render_template, request, flash
+from flask import Blueprint, url_for, redirect, render_template, request, flash
 from flask_login import login_required, current_user
+
 from . import database
 from .tables import Articles, Usagers
 from .tables import Commentaires
-from .tables import articleReactionAssociation
 from .tables import Reactions
+from .tables import articleReactionAssociation
+
 views = Blueprint("views", __name__)
+
 
 @views.route("/Accueil")
 @views.route("/")
@@ -15,7 +18,7 @@ def home():
 
 
 @views.route("/Publier", methods=['GET', 'POST'])
-@login_required #doit etre connecte pour acceder a l accueil
+@login_required  # doit etre connecte pour acceder a l accueil
 def creationArticle():
     if current_user.role == "admin" or current_user.role == "autheur":
         if request.method == "POST":
@@ -32,6 +35,7 @@ def creationArticle():
 
     return render_template('Publier.html', usager=current_user)
 
+
 @views.route("/supprimeArticle/<articleid>")
 @login_required
 def supprimeArticle(articleid):
@@ -45,6 +49,7 @@ def supprimeArticle(articleid):
         database.session.commit()
     return redirect(url_for("views.home"))
 
+
 @views.route("/creeCommentaire/<article_id>", methods=['POST'])
 @login_required
 def creeCommentaire(article_id):
@@ -56,6 +61,7 @@ def creeCommentaire(article_id):
         database.session.commit()
     return redirect(url_for("views.home"))
 
+
 @views.route("/supprimerCommentaire/<commentaires_id>")
 @login_required
 def supprimerCommentaire(commentaires_id):
@@ -66,22 +72,25 @@ def supprimerCommentaire(commentaires_id):
         database.session.commit()
     return redirect(url_for("views.home"))
 
+
 @views.route("/aimerArticles/<articles_id>", methods=['GET'])
 @login_required
 def aimerArticles(articles_id):
     article = Articles.query.filter_by(id=articles_id).first()
     jaime = articleReactionAssociation.query.filter_by(article_id=articles_id, usagers_id=current_user.id).first()
-    reaction = Reactions.query.filter_by(nomDeLaReaction = "aime").first()
+    reaction = Reactions.query.filter_by(nomDeLaReaction="aime").first()
     if article:
         if jaime:
 
             database.session.delete(jaime)
             database.session.commit()
         else:
-            relation = articleReactionAssociation(usagers_id=current_user.id, article_id=article.id, reaction_id=reaction.id )
+            relation = articleReactionAssociation(usagers_id=current_user.id, article_id=article.id,
+                                                  reaction_id=reaction.id)
             database.session.add(relation)
             database.session.commit()
     return redirect(url_for("views.home"))
+
 
 @views.route("/publieoubrouillon/<articles_id>", methods=['GET'])
 @login_required
@@ -96,24 +105,22 @@ def publieoubrouillon(articles_id):
                 article.status = "publie"
             database.session.commit()
     return redirect(url_for("views.home"))
-#------Partie Admin---
 
+
+# ------Partie Admin---
 
 
 @views.route("/adminrechercheusager")
 @login_required
 def adminrechercheusager():
-
     if current_user.role == "admin":
         return render_template('adminRechercheUser.html', usager=current_user)
 
     return redirect(url_for("views.home"))
 
 
-
-
-@views.route("/adminrechercheuseagerSoumis", methods=['POST'])
-@login_required #doit etre connecte pour acceder a l accueil
+@views.route("/adminrechercheuseager", methods=['POST'])
+@login_required  # doit etre connecte pour acceder a l accueil
 def adminrechercheuseagerSoumis():
     if current_user.role == "admin":
         rechercheutilisateur = request.form.get('adminrechercheuseagerSoumis')

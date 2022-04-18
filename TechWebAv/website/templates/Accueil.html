@@ -4,71 +4,70 @@
 <h1 style="justify-content: center">Spooftify</h1>
 <div id="articles"></div>
 
-
-
-
-
 {% for article in articles %}
-<div class="bg-info card mt-4" >
+<div class="bg-info card mt-4">
     <div class="card-header">
 
 
-        {% if usager.id in article.articleReactionAssociationArticle|map(attribute="usagers_id")|list  %}
+        {% if usager.id in article.articleReactionAssociationArticle|map(attribute="usagers_id")|list %}
         <a href="/aimerArticles/{{article.id}}"><i class="fa-solid fa-heart"></i></a>
         {%else %}
         <a href="/aimerArticles/{{article.id}}"><i class="fa-regular fa-heart"></i></a>
         {% endif %}
         {{ article.articleReactionAssociationArticle|length }}
-
         {% if usager.is_authenticated %}
+        {% if usager.role == "autheur" or usager.role == "admin" %}
+        {% if article.usagers_id == usager.id %}
         {% if article.status == "brouillon" %}
         <a href="/publieoubrouillon/{{article.id}}">Publié</a>
         {% else %}
         <a href="/publieoubrouillon/{{article.id}}">Remettre en brouillon</a>
         {% endif %}
-
-
-
-
-            {% endif %}
-
-    {% if usager.id == article.usagers_id %}
-        <button type="button" class="btn btn-sm text-dark">modifier</button>
-         <button type="button" class="btn btn-sm text-dark link-dark"><a class="link-dark" href="supprimeArticle/{{article.id}}">supprimer</a></button>
+        {% endif %}
+        {% endif %}
         {% endif %}
 
-
+        {% if usager.id == article.usagers_id %}
+        <button class="btn btn-sm text-dark" type="button">modifier</button>
+        <button class="btn btn-sm text-dark link-dark" type="button"><a class="link-dark"
+                                                                        href="supprimeArticle/{{article.id}}">supprimer</a>
+        </button>
+        {% endif %}
 
 
     </div>
 
     <div class="card-body">
         <div class="text-black">
-        {{article.textArticle}}
+            {{article.textArticle}}
         </div>
 
         <div class="sectionCommentaires mt-1">
             {% for commentaires in article.commentaires %}
-             <hr>
+            <hr>
             <div class="text-white">
                 {{commentaires.textCommentaires}}
                 {% if usager.id == commentaires.usagers_id %}
-                <button type="button" class="btn btn-sm text-dark link-dark"><a class="link-dark" href="supprimerCommentaire/{{commentaires.id}}">X</a></button>
+                <button class="btn btn-sm text-dark link-dark" type="button"><a class="link-dark"
+                                                                                href="supprimerCommentaire/{{commentaires.id}}">X</a>
+                </button>
 
                 {% endif %}
             </div>
             {% endfor %}
 
         </div>
-    {% if usager.is_authenticated %}
-    <hr>
+        {% if usager.is_authenticated %}
+        <hr>
         <div class="sectionEcrireCommentaire">
             <form action="/creeCommentaire/{{article.id }}" class="input-group bg-info" method="POST">
-                <input type="text" id="textCommentaire" name="textCommentaire" class="form-control" placeholder="Écrivez votre commentaire">
-                <button type="submit" class="submitcomment">Soumettre</button>
+                <input class="form-control" id="textCommentaire" name="textCommentaire"
+                       placeholder="Écrivez votre commentaire"
+                       type="text">
+                <button class="submitcomment" type="submit">Soumettre</button>
             </form>
         </div>
-    {% endif %}
+        {% endif %}
     </div>
 
     <div class="card-footer">
@@ -78,8 +77,6 @@
 
 
 {% endfor%}
-
-
 
 
 {% endblock %}

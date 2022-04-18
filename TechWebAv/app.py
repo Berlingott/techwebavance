@@ -1,8 +1,3 @@
-"""
-This script runs the application using a development server.
-It contains the definition of routes and views for the application.
-"""
-
 from website import create_app
 
 # Make the WSGI interface available at the top level so wfastcgi can get it.

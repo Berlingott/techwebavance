@@ -21,10 +21,7 @@
 
 
                 {% if usager.is_authenticated %}
-                    {% if usager.role == "lecteur" %}
-                    <a class="nav-item nav-link text-dark" href="/Accueil">Spooftify</a>
-                    <a class="nav-item text-dark nav-link" href="/logout">Disconnect</a>
-                    {% elif usager.role == "autheur" %}
+                    {% if usager.role == "autheur" %}
                     <a class="nav-item nav-link text-dark" href="/Accueil">Spooftify</a>
                     <a class="nav-item text-dark nav-link" href="/Publier">Publier</a>
                     <a class="nav-item text-dark nav-link" href="/logout">Disconnect</a>
@@ -32,6 +29,9 @@
                     <a class="nav-item nav-link text-dark" href="/Accueil">Spooftify</a>
                     <a class="nav-item text-dark nav-link" href="/Publier">Publier</a>
                     <a class="nav-item text-dark nav-link" href="/adminrechercheusager">Administration</a>
+                    <a class="nav-item text-dark nav-link" href="/logout">Disconnect</a>
+                    {% else %}
+                    <a class="nav-item nav-link text-dark" href="/Accueil">Spooftify</a>
                     <a class="nav-item text-dark nav-link" href="/logout">Disconnect</a>
                     {% endif %}
                 {% else %}

@@ -7,6 +7,26 @@ Trouver le projet sur https://github.com/empoi1/TechWebAvancee
 
 Devoir 1 du cours  8INF349 - Technologies Web avancées
 Création d'un blog à l'aide de Flask.
+
+=============================================
+# Instruction spécifiques
+
+Les utilisateur suivant sont créés de base à des fins de tests
+
+
+Utilisateur/mot de passe: admin / admin
+
+Cet utilisateurs détiens les droits d'administrateur
+
+Utilisateur/mot de passe: autheur / admin
+ 
+Cet utilisateurs détiens les droits d'autheur
+
+
+Utilisateur/mot de passe: simon / admin
+
+Cet utilisateur est un lecteur
+
 ==============================================================
 # Devoir
 L'objectif du projet de session est de développer et déployer Nous allons développer un blog Web.
