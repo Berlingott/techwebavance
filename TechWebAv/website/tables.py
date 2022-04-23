@@ -104,7 +104,7 @@ class Articles(database.Model):
             "usagers_id":self.usagers_id,
             "textArticle":self.textArticle,
             "datePublication":self.datePublication.strftime("%m/%d/%Y, %H:%M:%S"),
-            "satus":self.status,
+            "status":self.status,
             "commentaires":self.preparerListe(self.commentaires),
             "articleReactionAssociationArticle":self.preparerListe(self.articleReactionAssociationArticle)
         }

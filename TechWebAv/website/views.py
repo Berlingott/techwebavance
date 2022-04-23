@@ -1,4 +1,4 @@
-from flask import Blueprint, url_for, redirect, render_template, request, flash
+from flask import Flask,Blueprint, url_for, redirect, render_template, request, flash
 from flask_login import login_required, current_user
 
 
@@ -139,7 +139,59 @@ def listerTousLesItems():
 
 
 @views.route("/api/article/<articles_id>", methods=['GET'])
-@login_required
 def listerUnItem(articles_id):
     article = Articles.query.filter_by(id=articles_id)
     return render_template("apiBase.html",  articles=article)
+
+
+@views.route("/api/article/", methods=['PUT'])
+def ajouterUnItem():
+    tmp = request.get_json(force=True)
+    usagers_id = tmp['usagers_id']
+    textArticle = tmp['textArticle']
+
+    article = Articles(usagers_id=usagers_id,textArticle=textArticle)
+    database.session.add(article)
+    database.session.commit()
+    articlecree = Articles.query.order_by(Articles.id.desc()).first().id
+    #return render_template("apiBase.html",  articles_id=articlecree)
+    return redirect(("/api/articlecree/"+str(articlecree)))
+
+
+
+@views.route("/api/articlecree/<articles_id>", methods=['GET'])
+def itemCree(articles_id):
+    article = Articles.query.filter_by(id=articles_id)
+    return render_template("apiArticleCree.html",  articles=article)
+
+
+@views.route("/api/article/", methods=['POST'])
+def modifierUnItem():
+    tmp = request.get_json(force=True)
+    textArticleapi = tmp['textArticle']
+    articleIdapi = tmp['article_id']
+
+    article = Articles.query.filter_by(id=articleIdapi).first()
+    article.textArticle=textArticleapi
+
+    database.session.commit()
+
+    return redirect(("/api/articlemod/"+str(articleIdapi)))
+
+
+@views.route("/api/articlemod/<articles_id>", methods=['GET'])
+def itemMod(articles_id):
+    article = Articles.query.filter_by(id=articles_id)
+    return render_template("apiArticlemod.html",  articles=article)
+
+@views.route("/api/article/<articles_id>", methods=['DELETE'])
+def supprimerUnItem(articles_id):
+
+    article = Articles.query.filter_by(id=articles_id).first()
+    commentaires = Commentaires.query.filter_by(articlesducommentaire_id=articles_id).all()
+    for commentaires in commentaires:
+        database.session.delete(commentaires)
+
+    database.session.delete(article)
+    database.session.commit()
+    return ('', 204)
