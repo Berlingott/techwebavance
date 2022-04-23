@@ -1,6 +1,7 @@
 from flask import Blueprint, url_for, redirect, render_template, request, flash
 from flask_login import login_required, current_user
 
+
 from . import database
 from .tables import Articles, Usagers
 from .tables import Commentaires
@@ -128,3 +129,17 @@ def adminrechercheuseagerSoumis():
             resultat = Usagers.query.filter_by(username=rechercheutilisateur).first()
             return render_template('ModCompte.html', usager=current_user, resultat=resultat)
     return redirect(url_for('views.home'))
+
+
+@views.route("/api/article", methods=['GET'])
+@login_required
+def listerTousLesItems():
+    articles = Articles.query.all()
+    return render_template("apiBase.html",  articles=articles)
+
+
+@views.route("/api/article/<articles_id>", methods=['GET'])
+@login_required
+def listerUnItem(articles_id):
+    article = Articles.query.filter_by(id=articles_id)
+    return render_template("apiBase.html",  articles=article)

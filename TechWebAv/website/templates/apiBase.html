@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Response</title>
+    <div>{"data":{
+    {% for article in articles %}
+        {{(article.toJSON())}}
+    {% endfor %}
+        }}</div>
+</head>
+<body>
+
+</body>
+</html>

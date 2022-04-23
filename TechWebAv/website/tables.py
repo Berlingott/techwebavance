@@ -1,5 +1,6 @@
 import datetime
 
+import json
 from sqlalchemy.sql import func
 from flask_login import (
     LoginManager, UserMixin, current_user,
@@ -22,6 +23,14 @@ class articleReactionAssociation(database.Model):
     usagers_id = Column(database.Integer, database.ForeignKey('Usagers.id'))
     article_id = Column(database.Integer, database.ForeignKey('Articles.id'))
     reaction_id = Column(database.Integer, database.ForeignKey('Reactions.id'))
+    def toJSON(self):
+        toPrint = {
+            "id":self.id,
+            "usagers_id":self.usagers_id,
+            "article_id":self.article_id,
+            "reaction_id":self.reaction_id
+        }
+        return json.dumps(toPrint)
 
 
 class Commentaires(database.Model):
@@ -35,6 +44,15 @@ class Commentaires(database.Model):
     # attributs
     textCommentaires = Column(database.String(254))
     datePublication = Column(database.DateTime(timezone=True), default=func.now())
+    def toJSON(self):
+        toPrint = {
+            "id":self.id,
+            "usagers_id":self.usagers_id,
+            "articlesducommentaire_id":self.articlesducommentaire_id,
+            "datePublication":self.datePublication.strftime("%m/%d/%Y, %H:%M:%S"),
+            "textCommentaires":self.textCommentaires,
+        }
+        return json.dumps(toPrint)
     # backrefs
 
 
@@ -80,6 +98,22 @@ class Articles(database.Model):
     # backrefs
     commentaires = database.relationship("Commentaires", backref='Articles')
     articleReactionAssociationArticle = database.relationship("articleReactionAssociation", backref='Articles')
+    def toJSON(self):
+        toPrint = {
+            "id":self.id,
+            "usagers_id":self.usagers_id,
+            "textArticle":self.textArticle,
+            "datePublication":self.datePublication.strftime("%m/%d/%Y, %H:%M:%S"),
+            "satus":self.status,
+            "commentaires":self.preparerListe(self.commentaires),
+            "articleReactionAssociationArticle":self.preparerListe(self.articleReactionAssociationArticle)
+        }
+        return json.dumps(toPrint)
+    def preparerListe(self,tolist):
+        toReturn =""
+        for item in tolist:
+            toReturn += item.toJSON()
+        return toReturn
 
 
 
@@ -90,7 +124,7 @@ event.listen(Reactions.__table__, 'after_create', insert_data_reaction)
 
 def insert_data_reaction(target, connection, **kw):
     connection.execute(target.insert(), {'nom':"admin",'prenom':"admin",'password':"sha256$fOlfwooD$c3eefbf7b16deefeaffde6fb066fbb485432ec937988aa5f3d6d69408699083e",'username':"admin",'role':"admin", 'email':"admin"})
-    connection.execute(target.insert(), {'nom':"autheur",'prenom':"autheur",'password':"sha256$fOlfwooD$c3eefbf7b16deefeaffde6fb066fbb485432ec937988aa5f3d6d69408699083e",'username':"autheur",'role':"autheur", 'email':"autheur"})
+    connection.execute(target.insert(), {'nom':"auteur",'prenom':"auteur",'password':"sha256$fOlfwooD$c3eefbf7b16deefeaffde6fb066fbb485432ec937988aa5f3d6d69408699083e",'username':"auteur",'role':"auteur", 'email':"auteur"})
     connection.execute(target.insert(), {'nom':"simon",'prenom':"simon",'password':"sha256$fOlfwooD$c3eefbf7b16deefeaffde6fb066fbb485432ec937988aa5f3d6d69408699083e",'username':"simon",'role':"simon", 'email':"simon"})
 
 event.listen(Usagers.__table__, 'after_create', insert_data_reaction)

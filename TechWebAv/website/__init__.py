@@ -20,7 +20,8 @@ def create_app():  # Initialisation de l'application
     app.config['FLASK_ENV'] = 'development'
     app.config['DEBUG'] = True
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/BlogSimonEmery.db"  # chemin ou sera enregistrer la base de donnee
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/DBdb2.db"  # chemin ou sera enregistré la base de donnee windows
+    #app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////./DBdb2.db"  # chemin ou sera enregistré la base de donnee linux
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     from .tables import Usagers, Articles, Commentaires, articleReactionAssociation, Balises, Reactions

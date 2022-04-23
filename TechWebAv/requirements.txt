@@ -1,4 +1,4 @@
-typing~=3.10.0.0
+#typing~=3.10.0.0
 pip~=20.3.4
 configparser~=4.0.2
 wheel~=0.36.2
